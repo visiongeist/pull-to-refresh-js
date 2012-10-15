@@ -30,6 +30,6 @@ Works for iOS5 and newer.
 
 ## Links
 
-[How this works](http://damien.antipa.at/2012/11/15/ios-pull-to-refresh-in-mobile-safari-with-native-scrolling/)
-[Demo](http://damien.antipa.at/demo/pull-to-refresh/example)
-[My blog](http://damien.antipa.at)
+* [How this works](http://damien.antipa.at/2012/11/15/ios-pull-to-refresh-in-mobile-safari-with-native-scrolling/)
+* [Demo](http://damien.antipa.at/demo/pull-to-refresh/example)
+* [My blog](http://damien.antipa.at)
