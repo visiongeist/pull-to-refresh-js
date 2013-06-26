@@ -1,8 +1,7 @@
-/*!
-* jquery.plugin.pullToRefresh.js
-* version 1.0
-* author: Damien Antipa
-* https://github.com/dantipa/pull-to-refresh-js
+/**
+ * pull to refresh
+ *
+* based off jquery.plugin.pullToRefresh.js (iOS only) by Damien Antipa
 */
 (function( $ ){
 
@@ -42,70 +41,121 @@
 				pull = e.find('.pull'),
 				release = e.find('.release'),
 				loading = e.find('.loading'),
-				ptrHeight = ptr.height(),
+				ptrHeight = ptr.outerHeight(),
 				arrowDelay = ptrHeight / 3 * 2,
 				isActivated = false,
 				isLoading = false;
 
+			var sy = null,
+			    y  = null,
+			    dy = null,
+			    top = null,
+			    deg = null;
+			var ptop = -ptrHeight,
+			    ctop = 0;
+
+			var draw = function() {
+                if (y !== null) {
+                    requestAnimationFrame(draw);
+                }
+
+                var ty = Math.max(dy, 0);
+                ptr.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
+                content.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
+                arrow.css('-webkit-transform', 'rotate('+ deg + 'deg)');
+			};
+
 			content.on('touchstart', function (ev) {
-				if (e.scrollTop() === 0) { // fix scrolling
-					e.scrollTop(1);
-				}
+	            var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
+
+	            sy = touch.screenY;
+	            y  = sy;
+	            dy = 0;
+
+                release.hide();
+                loading.hide();
+                pull.show();
+                arrow.show();
+                spinner.hide();
+
+	            draw();
+
 			}).on('touchmove', function (ev) {
-				var top = e.scrollTop(),
-					deg = 180 - (top < -ptrHeight ? 180 : // degrees to move for the arrow (starts at 180° and decreases)
-						  (top < -arrowDelay ? Math.round(180 / (ptrHeight - arrowDelay) * (-top - arrowDelay)) 
-						  : 0));
+                var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
+
+                if (content.scrollTop() > 0) {
+			        return;
+			    }
+
+                y  = touch.screenY;
+                dy = y - sy;
+                dy = Math.min(dy, ptrHeight);
+				top = dy * -1;
+
+                if (dy <= 0) {
+                    return;
+                }
+
+                ev.preventDefault();
+
+				if (top < -ptrHeight) {
+				    deg = 0;
+				} else {
+				    if (top < -arrowDelay) {
+				        deg = 180 - Math.round(180 / (ptrHeight - arrowDelay) * (-top - arrowDelay));
+				    } else {
+				        deg = 180;
+				    }
+				}
 
 				if (isLoading) { // if is already loading -> do nothing
 					return true;
 				}
 
-				arrow.show();
-				arrow.css('transform', 'rotate('+ deg + 'deg)'); // move arrow
-
-				spinner.hide();
-
-				if (-top > ptrHeight) { // release state
-					release.css('opacity', 1);
-					pull.css('opacity', 0);
-					loading.css('opacity', 0);
-					
+				if (-top >= ptrHeight && !isActivated) { // release state
+	                release.show();
+	                loading.hide();
+	                pull.hide();
 
 					isActivated = true;
-				} else if (top > -ptrHeight) { // pull state
-					release.css('opacity', 0);
-					loading.css('opacity', 0);
-					pull.css('opacity', 1);
+				} else if (top > -ptrHeight && isActivated) { // pull state
+                    release.hide();
+                    loading.hide();
+                    pull.show();
 
 					isActivated = false;
 				}
 			}).on('touchend', function(ev) {
-				var top = e.scrollTop();
-				
+
+                var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
+
+                y  = touch.screenY;
+                dy = y - sy;
+                dy = Math.min(dy, ptrHeight * 2);
+
 				if (isActivated) { // loading state
+				    y = null, sy = null, dy = ptrHeight;
+
 					isLoading = true;
 					isActivated = false;
 
-					release.css('opacity', 0);;
-					pull.css('opacity', 0);
-					loading.css('opacity', 1);
+                    release.hide();
+                    loading.show();
+                    pull.hide();
 					arrow.hide();
 					spinner.show();
 
-					ptr.css('position', 'static');
-
 					cfg.callback().done(function() {
-						ptr.animate({
-							height: 10
-						}, 'fast', 'linear', function () {
-							ptr.css({
-								position: 'absolute',
-								height: ptrHeight
-							});
-							isLoading = false;
-						});
+					    isLoading = false;
+	                    ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
+	                    content.css('-webkit-transform', 'translateY(' + (0) + 'px)');
+	                    dy = null;
 					});
+				} else {
+                    y = null, sy = null, dy = null;
+
+                    ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
+                    content.css('-webkit-transform', 'translateY(' + (0) + 'px)');
 				}
 			});
 		});
