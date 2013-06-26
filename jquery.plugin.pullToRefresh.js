@@ -89,7 +89,6 @@
 
                 y  = touch.screenY;
                 dy = y - sy;
-                dy = Math.min(dy, ptrHeight);
 				top = dy * -1;
 
                 if (dy <= 0) {
@@ -131,7 +130,6 @@
 
                 y  = touch.screenY;
                 dy = y - sy;
-                dy = Math.min(dy, ptrHeight * 2);
 
 				if (isActivated) { // loading state
 				    y = null, sy = null, dy = ptrHeight;

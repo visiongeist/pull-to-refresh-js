@@ -20,7 +20,7 @@ and enable the plugin through passing a callback which returns a promise e.g.
             var def = $.Deferred();
             
             setTimeout(function() {
-                def.resolve();      
+                def.resolve();
             }, 3000); 
 
             return def.promise();
