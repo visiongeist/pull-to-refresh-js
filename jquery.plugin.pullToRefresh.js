@@ -65,9 +65,9 @@
                 }
 
                 var ty = Math.max(yy, 0);
-                ptr.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
-                s.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
-                arrow.css('-webkit-transform', 'rotate('+ deg + 'deg)');
+                ptr.css('transform', 'translateY(' + (ty) + 'px)');
+                s.css('transform', 'translateY(' + (ty) + 'px)');
+                arrow.css('transform', 'rotate('+ deg + 'deg)');
             };
 
             s.on('touchstart', function (ev) {
@@ -170,15 +170,15 @@
                     cfg.callback().done(function() {
                         isPulling = false;
                         isLoading = false;
-                        ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
-                        s.css('-webkit-transform', 'translateY(' + (0) + 'px)');
+                        ptr.css('transform', 'translateY(' + (0) + 'px)');
+                        s.css('transform', 'translateY(' + (0) + 'px)');
                         dy = null, py = null, yy = null;
                     });
                 } else {
                     y = null, sy = null, dy = null, py = null, yy = null;
 
-                    ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
-                    s.css('-webkit-transform', 'translateY(' + (0) + 'px)');
+                    ptr.css('transform', 'translateY(' + (0) + 'px)');
+                    s.css('transform', 'translateY(' + (0) + 'px)');
                 }
             });
         });
