@@ -5,82 +5,82 @@
 }
 
 .ptr-scrollable {
-	overflow-y: auto;
-	height: 100%;
-	position: relative;
+    overflow-y: auto;
+    height: 100%;
+    position: relative;
 }
 
 .ptr-scrollable .ptr-wrap {
-	min-height: 100%;
-	padding-bottom: 1px;
-	background: #f5f5f5;
+    min-height: 100%;
+    padding-bottom: 1px;
+    background: #f5f5f5;
     -webkit-transform: translateY(0);
        -moz-transform: translateY(0);
             transform: translateY(0);
 }
 
 .ptr-pull-to-refresh {
-	line-height: 40px;
-	height: 40px;
+    line-height: 40px;
+    height: 40px;
     padding: 10px 0px;
-	width: 100%; 
-	
-	position: absolute; 
-	left: 0; 
-	top: -60px;
+    width: 100%; 
+    
+    position: absolute; 
+    left: 0; 
+    top: -60px;
 
-	font-size: 0.85em;
+    font-size: 0.85em;
 
-	z-index: -1;
-	
+    z-index: -1;
+    
     -webkit-transform: translateY(0);
        -moz-transform: translateY(0);
             transform: translateY(0);
 }
 
 .ptr-pull-to-refresh >.ptr-message {
-	height: 40px;
-	width: 100%;
-	position: relative;
+    height: 40px;
+    width: 100%;
+    position: relative;
 }
 
 .ptr-pull-to-refresh >.ptr-message >i.ptr-arrow, 
 .ptr-pull-to-refresh >.ptr-message >i.ptr-spinner {
-	-webkit-background-size: 100% 100%;
-	-moz-background-size: 100% 100%;
-	background-size: 100% 100%;
-	display: inline-block;
-	margin-left: 10px;
-	background-position: center center;
-	
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    background-size: 100% 100%;
+    display: inline-block;
+    margin-left: 10px;
+    background-position: center center;
+    
 }
 
 .ptr-pull-to-refresh >.ptr-message >i.ptr-arrow {
-	width: 20px;
-	height: 40px;
-	background-image: url('img/arrow.png');
-	
+    width: 20px;
+    height: 40px;
+    background-image: url('img/arrow.png');
+    
     -webkit-transform: rotate(0);
        -moz-transform: rotate(0);
             transform: rotate(0);
 }
 
 .ptr-pull-to-refresh >.ptr-message >i.ptr-spinner { 
-	width: 16px;
-	height: 16px;
-	background-image: url('img/spinner.gif');
+    width: 16px;
+    height: 16px;
+    background-image: url('img/spinner.gif');
 }
 
 .ptr-pull-to-refresh >.ptr-message >span.ptr-pull,
 .ptr-pull-to-refresh >.ptr-message >span.ptr-release, 
 .ptr-pull-to-refresh >.ptr-message >span.ptr-loading {
-	text-align: center;
+    text-align: center;
 
-	display: block;
-	height: 40px;
-	width: 100%;
+    display: block;
+    height: 40px;
+    width: 100%;
 
-	position: absolute;
-	top: 0;
-	left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
