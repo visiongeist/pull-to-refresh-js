@@ -1,10 +1,16 @@
-.scrollable {
+.ptr-wrapper {
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+}
+
+.ptr-scrollable {
 	overflow-y: auto;
 	height: 100%;
 	position: relative;
 }
 
-.scrollable .wrap {
+.ptr-scrollable .ptr-wrap {
 	min-height: 100%;
 	padding-bottom: 1px;
 	background: #f5f5f5;
@@ -12,7 +18,7 @@
             transform: translateY(0);
 }
 
-.pull-to-refresh {
+.ptr-pull-to-refresh {
 	line-height: 40px;
 	height: 40px;
     padding: 10px 0px;
@@ -30,14 +36,14 @@
             transform: translateY(0);
 }
 
-.pull-to-refresh >.message {
+.ptr-pull-to-refresh >.ptr-message {
 	height: 40px;
 	width: 100%;
 	position: relative;
 }
 
-.pull-to-refresh >.message >i.arrow, 
-.pull-to-refresh >.message >i.spinner {
+.ptr-pull-to-refresh >.ptr-message >i.ptr-arrow, 
+.ptr-pull-to-refresh >.ptr-message >i.ptr-spinner {
 	-webkit-background-size: 100% 100%;
 	-moz-background-size: 100% 100%;
 	background-size: 100% 100%;
@@ -47,21 +53,21 @@
 	
 }
 
-.pull-to-refresh >.message >i.arrow {
+.ptr-pull-to-refresh >.ptr-message >i.ptr-arrow {
 	width: 20px;
 	height: 40px;
 	background-image: url('img/arrow.png');
 }
 
-.pull-to-refresh >.message >i.spinner { 
+.ptr-pull-to-refresh >.ptr-message >i.ptr-spinner { 
 	width: 16px;
 	height: 16px;
 	background-image: url('img/spinner.gif');
 }
 
-.pull-to-refresh >.message >span.pull,
-.pull-to-refresh >.message >span.release, 
-.pull-to-refresh >.message >span.loading {
+.ptr-pull-to-refresh >.ptr-message >span.ptr-pull,
+.ptr-pull-to-refresh >.ptr-message >span.ptr-release, 
+.ptr-pull-to-refresh >.ptr-message >span.ptr-loading {
 	text-align: center;
 
 	display: block;

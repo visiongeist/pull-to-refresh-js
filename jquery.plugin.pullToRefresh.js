@@ -15,14 +15,14 @@
 				loading: 'Loading'
 				}
 			}, options),
-			html = '<div class="pull-to-refresh">' +
-				'<div class="icon"></div>' +
-				'<div class="message">' +
-					'<i class="arrow"></i>' +
-					'<i class="spinner large"></i>' +
-					'<span class="pull">' + cfg.message.pull + '</span>' +
-					'<span class="release">' + cfg.message.release + '</span>' +
-					'<span class="loading">' + cfg.message.loading + '</span>' +
+			html = '<div class="ptr-pull-to-refresh">' +
+				'<div class="ptr-icon"></div>' +
+				'<div class="ptr-message">' +
+					'<i class="ptr-arrow"></i>' +
+					'<i class="ptr-spinner large"></i>' +
+					'<span class="ptr-pull">' + cfg.message.pull + '</span>' +
+					'<span class="ptr-release">' + cfg.message.release + '</span>' +
+					'<span class="ptr-loading">' + cfg.message.loading + '</span>' +
 				  '</div>' +
 				'</div>';
 
@@ -34,13 +34,14 @@
 			}
 
 			var e = $(this).prepend(html),
-				content = e.find('.wrap'),
-				ptr = e.find('.pull-to-refresh'),
-				arrow = e.find('.arrow'),
-				spinner = e.find('.spinner'),
-				pull = e.find('.pull'),
-				release = e.find('.release'),
-				loading = e.find('.loading'),
+			    s = e.find('.ptr-scrollable'),
+				content = e.find('.ptr-wrap'),
+				ptr = e.find('.ptr-pull-to-refresh'),
+				arrow = e.find('.ptr-arrow'),
+				spinner = e.find('.ptr-spinner'),
+				pull = e.find('.ptr-pull'),
+				release = e.find('.ptr-release'),
+				loading = e.find('.ptr-loading'),
 				ptrHeight = ptr.outerHeight(),
 				arrowDelay = ptrHeight / 3 * 2,
 				isActivated = false,
@@ -61,11 +62,11 @@
 
                 var ty = Math.max(dy, 0);
                 ptr.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
-                content.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
+                s.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
                 arrow.css('-webkit-transform', 'rotate('+ deg + 'deg)');
 			};
 
-			content.on('touchstart', function (ev) {
+			s.on('touchstart', function (ev) {
 	            var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
 
 	            sy = touch.screenY;
@@ -83,7 +84,7 @@
 			}).on('touchmove', function (ev) {
                 var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
 
-                if (content.scrollTop() > 0) {
+                if (s.scrollTop() > 0) {
 			        return;
 			    }
 
@@ -146,14 +147,14 @@
 					cfg.callback().done(function() {
 					    isLoading = false;
 	                    ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
-	                    content.css('-webkit-transform', 'translateY(' + (0) + 'px)');
+	                    s.css('-webkit-transform', 'translateY(' + (0) + 'px)');
 	                    dy = null;
 					});
 				} else {
                     y = null, sy = null, dy = null;
 
                     ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
-                    content.css('-webkit-transform', 'translateY(' + (0) + 'px)');
+                    s.css('-webkit-transform', 'translateY(' + (0) + 'px)');
 				}
 			});
 		});
