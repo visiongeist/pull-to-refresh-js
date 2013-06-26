@@ -45,11 +45,15 @@
 				ptrHeight = ptr.outerHeight(),
 				arrowDelay = ptrHeight / 3 * 2,
 				isActivated = false,
+				isScrolling = false,
+				isPulling = false,
 				isLoading = false;
 
 			var sy = null,
 			    y  = null,
 			    dy = null,
+			    py = 0,
+			    yy = 0,
 			    top = null,
 			    deg = null;
 			var ptop = -ptrHeight,
@@ -60,7 +64,7 @@
                     requestAnimationFrame(draw);
                 }
 
-                var ty = Math.max(dy, 0);
+                var ty = Math.max(yy, 0);
                 ptr.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
                 s.css('-webkit-transform', 'translateY(' + (ty) + 'px)');
                 arrow.css('-webkit-transform', 'rotate('+ deg + 'deg)');
@@ -73,57 +77,68 @@
 	            y  = sy;
 	            dy = 0;
 
-                release.hide();
-                loading.hide();
-                pull.show();
-                arrow.show();
-                spinner.hide();
-
-	            draw();
+                draw();
 
 			}).on('touchmove', function (ev) {
                 var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
 
                 if (s.scrollTop() > 0) {
+                    isScrolling = true;
 			        return;
 			    }
 
+                if (isScrolling) {
+                    isScrolling = false;
+                    sy = touch.screenY;
+                    y  = sy;
+                    dy = 0;
+                }
+
                 y  = touch.screenY;
                 dy = y - sy;
-				top = dy * -1;
+                yy = py + dy;
 
-                if (dy <= 0) {
+                if (!isPulling) {
+                    isPulling = true;
+
+                    release.hide();
+                    loading.hide();
+                    pull.show();
+                    arrow.show();
+                    spinner.hide();
+                }
+
+                if (yy <= 0) {
                     return;
                 }
 
                 ev.preventDefault();
 
-				if (top < -ptrHeight) {
-				    deg = 0;
-				} else {
-				    if (top < -arrowDelay) {
-				        deg = 180 - Math.round(180 / (ptrHeight - arrowDelay) * (-top - arrowDelay));
-				    } else {
-				        deg = 180;
-				    }
-				}
+                if (!isLoading) {
+                    top = yy * -1;
+    				if (top < -ptrHeight) {
+    				    deg = 0;
+    				} else {
+    				    if (top < -arrowDelay) {
+    				        deg = 180 - Math.round(180 / (ptrHeight - arrowDelay) * (-top - arrowDelay));
+    				    } else {
+    				        deg = 180;
+    				    }
+    				}
 
-				if (isLoading) { // if is already loading -> do nothing
-					return true;
-				}
+    				if (-top >= ptrHeight && !isActivated) { // release state
+    	                release.show();
+    	                loading.hide();
+    	                pull.hide();
 
-				if (-top >= ptrHeight && !isActivated) { // release state
-	                release.show();
-	                loading.hide();
-	                pull.hide();
+    					isActivated = true;
+    				} else if (top > -ptrHeight && isActivated) { // pull state
+                        release.hide();
+                        loading.hide();
+                        pull.show();
 
-					isActivated = true;
-				} else if (top > -ptrHeight && isActivated) { // pull state
-                    release.hide();
-                    loading.hide();
-                    pull.show();
-
-					isActivated = false;
+    					isActivated = false;
+    				}
 				}
 			}).on('touchend', function(ev) {
 
@@ -131,9 +146,17 @@
 
                 y  = touch.screenY;
                 dy = y - sy;
+                yy = py + dy;
 
-				if (isActivated) { // loading state
-				    y = null, sy = null, dy = ptrHeight;
+				if (isActivated || isLoading) {
+				    y = null, sy = null;
+				    yy = Math.min(yy, ptrHeight);
+				    yy = yy > 0 ? ptrHeight : 0;
+				    py = yy;
+
+				    if (isLoading) {
+				        return;
+				    }
 
 					isLoading = true;
 					isActivated = false;
@@ -145,13 +168,14 @@
 					spinner.show();
 
 					cfg.callback().done(function() {
+	                    isPulling = false;
 					    isLoading = false;
 	                    ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
 	                    s.css('-webkit-transform', 'translateY(' + (0) + 'px)');
-	                    dy = null;
+	                    dy = null, py = null, yy = null;
 					});
 				} else {
-                    y = null, sy = null, dy = null;
+                    y = null, sy = null, dy = null, py = null, yy = null;
 
                     ptr.css('-webkit-transform', 'translateY(' + (0) + 'px)');
                     s.css('-webkit-transform', 'translateY(' + (0) + 'px)');

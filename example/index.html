@@ -213,6 +213,7 @@
                     var def = $.Deferred();
 
                     setTimeout(function() {
+                        $('.ptr-wrapper .content').prepend($("<li />").html((new Date()).getTime()));
                         def.resolve();
                     }, 3000);
 
