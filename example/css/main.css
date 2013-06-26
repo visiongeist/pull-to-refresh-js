@@ -10,7 +10,7 @@ header, footer  {
     -moz-box-sizing: border-box; 
     -webkit-box-sizing: border-box; 
     box-sizing: border-box;
-    background: url('img/iphone-frame.png') no-repeat;
+    background: url('../img/iphone-frame.png') no-repeat;
     width: 227px;
     height: 443px;
     padding: 79px 19px;
