@@ -96,7 +96,7 @@
 
                 y  = touch.screenY;
                 dy = y - sy;
-                yy = py + dy;
+                yy = py + (dy * 0.5);
 
                 if (!isPulling) {
                     isPulling = true;
@@ -146,7 +146,7 @@
 
                 y  = touch.screenY;
                 dy = y - sy;
-                yy = py + dy;
+                yy = py + (dy * 0.5);
 
                 if (isActivated || isLoading) {
                     y = null, sy = null;
