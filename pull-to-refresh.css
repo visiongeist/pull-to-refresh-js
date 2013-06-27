@@ -30,8 +30,6 @@
     top: -60px;
 
     font-size: 0.85em;
-
-    z-index: -1;
     
     -webkit-transform: translateY(0);
        -moz-transform: translateY(0);
