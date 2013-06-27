@@ -82,7 +82,7 @@
             }).on('touchmove', function (ev) {
                 var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
 
-                if (s.scrollTop() > 0) {
+                if (s.get(0).scrollTop > 0) {
                     isScrolling = true;
                     return;
                 }
