@@ -47,20 +47,46 @@
                 isActivated = false,
                 isScrolling = false,
                 isPulling = false,
-                isLoading = false;
+                isLoading = false,
+                isSwiping = null;
 
-            var sy = null,
-                y  = null,
-                dy = null,
+            var start = null,
+                cur   = null,
+                delta = null,
                 py = 0,
                 yy = 0,
                 top = null,
                 deg = null;
+            
             var ptop = -ptrHeight,
                 ctop = 0;
 
+            var setStart = function(touch) {
+                start = {
+                    x : touch.pageX,
+                    y : touch.pageY,
+                    time : +new Date
+                };
+            };
+            var setCurrent = function(touch) {
+                cur = {
+                    x : touch.pageX,
+                    y : touch.pageY,
+                    time : +new Date
+                };
+                
+                setDelta();
+            };
+            var setDelta = function() {
+                delta = {
+                    x : cur.x - start.x,
+                    y : cur.y - start.y,
+                    time : +new Date
+                };
+            };
+
             var draw = function() {
-                if (y !== null) {
+                if (cur !== null) {
                     requestAnimationFrame(draw);
                 }
 
@@ -73,15 +99,17 @@
             s.on('touchstart', function (ev) {
                 var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
 
-                sy = touch.screenY;
-                y  = sy;
-                dy = 0;
+                isScrolling = null;
+                isSwiping   = null;
+                
+                setStart(touch);
+                setCurrent(touch);
 
                 draw();
 
             }).on('touchmove', function (ev) {
                 var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
-
+                
                 if (s.get(0).scrollTop > 0) {
                     isScrolling = true;
                     return;
@@ -89,14 +117,23 @@
 
                 if (isScrolling) {
                     isScrolling = false;
-                    sy = touch.screenY;
-                    y  = sy;
-                    dy = 0;
+                    isSwiping   = null;
+                    setStart(touch);
                 }
 
-                y  = touch.screenY;
-                dy = y - sy;
-                yy = py + (dy * 0.5);
+                setCurrent(touch);
+                
+                // deternine if swiping test has run - one time test
+                if (isSwiping === null) {
+                    isSwiping = !!(isSwiping || Math.abs(delta.x) > Math.abs(delta.y));
+                }
+                
+                // when swiping (horizontal) we do nothing
+                if (isSwiping) {
+                    return;
+                }
+                
+                yy = py + (delta.y * 0.5);
 
                 if (!isPulling) {
                     isPulling = true;
@@ -144,12 +181,11 @@
 
                 var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
 
-                y  = touch.screenY;
-                dy = y - sy;
-                yy = py + (dy * 0.5);
+                setCurrent(touch);
+                yy = py + (delta.y * 0.5);
 
                 if (isActivated || isLoading) {
-                    y = null, sy = null;
+                    cur = null, start = null;
                     yy = Math.min(yy, ptrHeight);
                     yy = yy > 0 ? ptrHeight : 0;
                     py = yy;
@@ -160,6 +196,7 @@
 
                     isLoading = true;
                     isActivated = false;
+                    isSwiping = null;
 
                     release.hide();
                     loading.show();
@@ -172,10 +209,10 @@
                         isLoading = false;
                         ptr.css('transform', 'translateY(' + (0) + 'px)');
                         s.css('transform', 'translateY(' + (0) + 'px)');
-                        dy = null, py = null, yy = null;
+                        delta = null, py = null, yy = null;
                     });
                 } else {
-                    y = null, sy = null, dy = null, py = null, yy = null;
+                    cur = null, start = null, delta = null, py = null, yy = null;
 
                     ptr.css('transform', 'translateY(' + (0) + 'px)');
                     s.css('transform', 'translateY(' + (0) + 'px)');
