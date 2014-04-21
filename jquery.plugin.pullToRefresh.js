@@ -1,114 +1,224 @@
-/*!
-* jquery.plugin.pullToRefresh.js
-* version 1.0
-* author: Damien Antipa
-* https://github.com/dantipa/pull-to-refresh-js
+/**
+ * pull to refresh
+ *
+* based off jquery.plugin.pullToRefresh.js (iOS only) by Damien Antipa
 */
 (function( $ ){
 
-	$.fn.pullToRefresh = function( options ) {
+    $.fn.pullToRefresh = function( options ) {
 
-		var isTouch = !!('ontouchstart' in window),
-			cfg = $.extend(true, {
-			  message: {
-				pull: 'Pull to refresh',
-				release: 'Release to refresh',
-				loading: 'Loading'
-				}
-			}, options),
-			html = '<div class="pull-to-refresh">' +
-				'<div class="icon"></div>' +
-				'<div class="message">' +
-					'<i class="arrow"></i>' +
-					'<i class="spinner large"></i>' +
-					'<span class="pull">' + cfg.message.pull + '</span>' +
-					'<span class="release">' + cfg.message.release + '</span>' +
-					'<span class="loading">' + cfg.message.loading + '</span>' +
-				  '</div>' +
-				'</div>';
+        var isTouch = !!('ontouchstart' in window),
+            cfg = $.extend(true, {
+              message: {
+                pull: 'Pull to refresh',
+                release: 'Release to refresh',
+                loading: 'Loading'
+                }
+            }, options),
+            html = '<div class="ptr-pull-to-refresh">' +
+                '<div class="ptr-icon"></div>' +
+                '<div class="ptr-message">' +
+                    '<i class="ptr-arrow"></i>' +
+                    '<i class="ptr-spinner large"></i>' +
+                    '<span class="ptr-pull">' + cfg.message.pull + '</span>' +
+                    '<span class="ptr-release">' + cfg.message.release + '</span>' +
+                    '<span class="ptr-loading">' + cfg.message.loading + '</span>' +
+                  '</div>' +
+                '</div>';
 
 
 
-		return this.each(function() {
-			if (!isTouch) {
-				return;
-			}
+        return this.each(function() {
+            if (!isTouch) {
+                return;
+            }
 
-			var e = $(this).prepend(html),
-				content = e.find('.wrap'),
-				ptr = e.find('.pull-to-refresh'),
-				arrow = e.find('.arrow'),
-				spinner = e.find('.spinner'),
-				pull = e.find('.pull'),
-				release = e.find('.release'),
-				loading = e.find('.loading'),
-				ptrHeight = ptr.height(),
-				arrowDelay = ptrHeight / 3 * 2,
-				isActivated = false,
-				isLoading = false;
+            var e = $(this).prepend(html),
+                s = e.find('.ptr-scrollable'),
+                content = e.find('.ptr-wrap'),
+                ptr = e.find('.ptr-pull-to-refresh'),
+                arrow = e.find('.ptr-arrow'),
+                spinner = e.find('.ptr-spinner'),
+                pull = e.find('.ptr-pull'),
+                release = e.find('.ptr-release'),
+                loading = e.find('.ptr-loading'),
+                ptrHeight = ptr.outerHeight(),
+                arrowDelay = ptrHeight / 3 * 2,
+                isActivated = false,
+                isScrolling = false,
+                isPulling = false,
+                isLoading = false,
+                isSwiping = null;
 
-			content.on('touchstart', function (ev) {
-				if (e.scrollTop() === 0) { // fix scrolling
-					e.scrollTop(1);
-				}
-			}).on('touchmove', function (ev) {
-				var top = e.scrollTop(),
-					deg = 180 - (top < -ptrHeight ? 180 : // degrees to move for the arrow (starts at 180° and decreases)
-						  (top < -arrowDelay ? Math.round(180 / (ptrHeight - arrowDelay) * (-top - arrowDelay)) 
-						  : 0));
+            var start = null,
+                cur   = null,
+                delta = null,
+                py = 0,
+                yy = 0,
+                top = null,
+                deg = null;
+            
+            var ptop = -ptrHeight,
+                ctop = 0;
 
-				if (isLoading) { // if is already loading -> do nothing
-					return true;
-				}
+            var setStart = function(touch) {
+                start = {
+                    x : touch.pageX,
+                    y : touch.pageY,
+                    time : +new Date
+                };
+            };
+            var setCurrent = function(touch) {
+                cur = {
+                    x : touch.pageX,
+                    y : touch.pageY,
+                    time : +new Date
+                };
+                
+                setDelta();
+            };
+            var setDelta = function() {
+                delta = {
+                    x : cur.x - start.x,
+                    y : cur.y - start.y,
+                    time : +new Date
+                };
+            };
 
-				arrow.show();
-				arrow.css('transform', 'rotate('+ deg + 'deg)'); // move arrow
+            var draw = function() {
+                if (cur !== null) {
+                    requestAnimationFrame(draw);
+                }
 
-				spinner.hide();
+                var ty = Math.max(yy, 0);
+                ptr.css('transform', 'translateY(' + (ty) + 'px)');
+                s.css('transform', 'translateY(' + (ty) + 'px)');
+                arrow.css('transform', 'rotate('+ deg + 'deg)');
+            };
 
-				if (-top > ptrHeight) { // release state
-					release.css('opacity', 1);
-					pull.css('opacity', 0);
-					loading.css('opacity', 0);
-					
+            s.on('touchstart', function (ev) {
+                var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
 
-					isActivated = true;
-				} else if (top > -ptrHeight) { // pull state
-					release.css('opacity', 0);
-					loading.css('opacity', 0);
-					pull.css('opacity', 1);
+                isScrolling = null;
+                isSwiping   = null;
+                
+                setStart(touch);
+                setCurrent(touch);
 
-					isActivated = false;
-				}
-			}).on('touchend', function(ev) {
-				var top = e.scrollTop();
-				
-				if (isActivated) { // loading state
-					isLoading = true;
-					isActivated = false;
+                draw();
 
-					release.css('opacity', 0);;
-					pull.css('opacity', 0);
-					loading.css('opacity', 1);
-					arrow.hide();
-					spinner.show();
+            }).on('touchmove', function (ev) {
+                var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
+                
+                if (s.get(0).scrollTop > 0) {
+                    isScrolling = true;
+                    return;
+                }
 
-					ptr.css('position', 'static');
+                if (isScrolling) {
+                    isScrolling = false;
+                    isSwiping   = null;
+                    setStart(touch);
+                }
 
-					cfg.callback().done(function() {
-						ptr.animate({
-							height: 10
-						}, 'fast', 'linear', function () {
-							ptr.css({
-								position: 'absolute',
-								height: ptrHeight
-							});
-							isLoading = false;
-						});
-					});
-				}
-			});
-		});
+                setCurrent(touch);
+                
+                // deternine if swiping test has run - one time test
+                if (isSwiping === null) {
+                    isSwiping = !!(isSwiping || Math.abs(delta.x) > Math.abs(delta.y));
+                }
+                
+                // when swiping (horizontal) we do nothing
+                if (isSwiping) {
+                    return;
+                }
+                
+                yy = py + (delta.y * 0.5);
 
-	};
+                if (!isPulling) {
+                    isPulling = true;
+
+                    release.hide();
+                    loading.hide();
+                    pull.show();
+                    arrow.show();
+                    spinner.hide();
+                }
+
+                if (yy <= 0) {
+                    return;
+                }
+
+                ev.preventDefault();
+
+                if (!isLoading) {
+                    top = yy * -1;
+                    if (top < -ptrHeight) {
+                        deg = 0;
+                    } else {
+                        if (top < -arrowDelay) {
+                            deg = 180 - Math.round(180 / (ptrHeight - arrowDelay) * (-top - arrowDelay));
+                        } else {
+                            deg = 180;
+                        }
+                    }
+
+                    if (-top >= ptrHeight && !isActivated) { // release state
+                        release.show();
+                        loading.hide();
+                        pull.hide();
+
+                        isActivated = true;
+                    } else if (top > -ptrHeight && isActivated) { // pull state
+                        release.hide();
+                        loading.hide();
+                        pull.show();
+
+                        isActivated = false;
+                    }
+                }
+            }).on('touchend', function(ev) {
+
+                var touch = ev.originalEvent.touches[0] || ev.originalEvent.changedTouches[0];
+
+                setCurrent(touch);
+                yy = py + (delta.y * 0.5);
+
+                if (isActivated || isLoading) {
+                    cur = null, start = null;
+                    yy = Math.min(yy, ptrHeight);
+                    yy = yy > 0 ? ptrHeight : 0;
+                    py = yy;
+
+                    if (isLoading) {
+                        return;
+                    }
+
+                    isLoading = true;
+                    isActivated = false;
+                    isSwiping = null;
+
+                    release.hide();
+                    loading.show();
+                    pull.hide();
+                    arrow.hide();
+                    spinner.show();
+
+                    cfg.callback().done(function() {
+                        isPulling = false;
+                        isLoading = false;
+                        ptr.css('transform', 'translateY(' + (0) + 'px)');
+                        s.css('transform', 'translateY(' + (0) + 'px)');
+                        delta = null, py = null, yy = null;
+                    });
+                } else {
+                    cur = null, start = null, delta = null, py = null, yy = null;
+
+                    ptr.css('transform', 'translateY(' + (0) + 'px)');
+                    s.css('transform', 'translateY(' + (0) + 'px)');
+                }
+            });
+        });
+
+    };
 })( jQuery );

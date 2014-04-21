@@ -3,228 +3,224 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Pull-to-refresh with native scrolling</title>
+        <title>Pull-to-refresh</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="../pull-to-refresh.css">
+        <link rel="stylesheet" href="pull-to-refresh.css">
     </head>
     <body id="body">
         <script type="text/javascript">
             var isTouch = !!('ontouchstart' in window);
-            document.getElementById('body').setAttribute('class', isTouch ? 'touch' : 'desktop');    
+            document.getElementById('body').setAttribute('class', isTouch ? 'touch' : 'desktop');
         </script>
         <div class="main-container">
+            <a href="https://github.com/rubensayshi/pull-to-refresh-js">
+                <img style="z-index: 5; position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
+            </a>
             <header>
-                <h1>Pull-to-refresh for native scrolling</h1>
-                <p>
-                    Since iOS 5 mobile Safari supports native scrolling for overflowing divs. Beforehand it was necessary to emulate the scrolling behavior with Javascript. The most popular scrolling libraries added some features to the scrolling part. Such as the pretty popular "Pull-to-refresh" functionality.
-                </p>
-                <p>
-                    This tiny jQuery plugin allows you to use "Pull-to-refresh" with native scrolling OOTB! Check out this blog entry to learn how it works or the github project to download.
-                </p>
-                <p>
-                    Cheers, <br/>
-                    <a href="http://damien.antipa.at">Damien Antipa</a>
-                </p>
-            </header>   
+                <h1>Pull-to-refresh</h1>
+                <p>This plugin enables a pull-to-refresh functionality in all touch browsers for scrollable block elements.</p>
+                <p>It avoids placing the animated elements inside the scrollable element, because that greatly reduces the performance of the animation.</p>
+            </header>
             <div id="demo">
                 <div id="demo-window">
-                    <div class="scrollable">
-                        <div class="wrap">
-                            <ul class="content">
-                                <li class="err">Works on</li>
-                                <li class="err">touch devices only!</li>
-                                <li><strong>Pull here to try</strong></li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                                <li>You can't touch this</li>
-                                <li>My, my, my music</li>
-                                <li>hits me so hard</li>
-                                <li>Makes me say "Oh, my Lord"</li>
-                                <li>Thank you for blessing me</li>
-                                <li>I told you, homeboy</li>
-                                <li>You can't touch this</li>
-                                <li>Look at my eyes, man</li>
-                            </ul>
+                    <div class="ptr-wrapper">
+                        <div class="ptr-scrollable">
+                            <div class="ptr-wrap">
+                                <ul class="content">
+                                    <li class="err">Works on</li>
+                                    <li class="err">touch devices only!</li>
+                                    <li><strong>Pull here to try</strong></li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                    <li>You can't touch this</li>
+                                    <li>My, my, my music</li>
+                                    <li>hits me so hard</li>
+                                    <li>Makes me say "Oh, my Lord"</li>
+                                    <li>Thank you for blessing me</li>
+                                    <li>I told you, homeboy</li>
+                                    <li>You can't touch this</li>
+                                    <li>Look at my eyes, man</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <footer>
-                You like to touch? Then check out <a href="https://github.com/dantipa/toe.js">toe.js</a>
-            </footer>    
-        </div> <!-- #main-container -->
+        </div>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script src="../jquery.plugin.pullToRefresh.js"></script>
+        <script src="requestAnimationFrame.js"></script>
+        <script src="jquery.plugin.pullToRefresh.js"></script>
         <script>
-            $('.scrollable').pullToRefresh({
+            $('.ptr-wrapper').pullToRefresh({
                 callback: function() {
                     var def = $.Deferred();
-                    
+
                     setTimeout(function() {
-                        def.resolve();      
-                    }, 3000); 
+                        $('.ptr-wrapper .content').prepend($("<li />").html((new Date()).getTime()));
+                        def.resolve();
+                    }, 3000);
 
                     return def.promise();
                 }
