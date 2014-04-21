@@ -5,7 +5,9 @@
 }
 
 .ptr-scrollable {
-    overflow-y: auto;
+/* The 2 lines below enable momentum scrolling on iOS and degrade nicely on other touch devices */
+    overflow-y: scroll; 
+    -webkit-overflow-scrolling: touch;
     height: 100%;
     position: relative;
 }
